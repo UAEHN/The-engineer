@@ -3,54 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>حاسبة الطابوق</title>
+  <title>حاسبة مواد البناء</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link href="https://cdn.jsdelivr.net/npm/daisyui@5.0.9/dist/full.css" rel="stylesheet" type="text/css" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            tajawal: ['Tajawal', 'sans-serif'],
-          },
-          backgroundImage: {
-            'hero-pattern': "url('https://img.freepik.com/free-vector/white-abstract-background-design_23-2148825582.jpg')",
-            'brick-pattern': "url('https://img.freepik.com/free-photo/brick-wall-painted-white_1194-6482.jpg')",
-          },
-        },
-      },
-      daisyui: {
-        themes: [
-          {
-            mytheme: {
-              "primary": "#1e40af",
-              "primary-focus": "#1e3a8a",
-              "primary-content": "#ffffff",
-              "secondary": "#334155",
-              "secondary-focus": "#1e293b",
-              "secondary-content": "#ffffff",
-              "accent": "#f97316",
-              "accent-focus": "#ea580c",
-              "accent-content": "#ffffff",
-              "neutral": "#3d4451",
-              "neutral-focus": "#2a2e37",
-              "neutral-content": "#ffffff",
-              "base-100": "#ffffff",
-              "base-200": "#f8f9fa",
-              "base-300": "#f1f5f9",
-              "base-content": "#1e293b",
-              "info": "#3abff8",
-              "success": "#36d399",
-              "warning": "#fbbd23",
-              "error": "#ef4444",
-            },
-          },
-        ],
-        rtl: true,
-      },
-    }
-  </script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap');
     
@@ -62,6 +18,7 @@
     
     .hero-bg {
       background-color: #1e40af;
+      background-image: linear-gradient(135deg, #1e40af 0%, #3b82f6.50%, #1e3a8a 100%);
     }
     
     @keyframes fadeIn {
@@ -89,6 +46,174 @@
     
     .card {
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    /* تحسين أزرار التبويب */
+    .calculator-tabs .btn {
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .calculator-tabs .btn:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      transition: all 0.4s ease;
+      z-index: -1;
+    }
+    
+    .calculator-tabs .btn:hover:before {
+      width: 100%;
+    }
+    
+    .calculator-tabs .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .calculator-tabs .btn.btn-active {
+      border-color: white;
+    }
+    
+    /* تحسين أزرار الحساب */
+    .calculator-btn {
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .calculator-btn:hover {
+      transform: scale(1.03);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+    }
+    
+    .calculator-btn:active {
+      transform: scale(0.98);
+    }
+    
+    /* تحسين أزرار إعادة التعيين */
+    .reset-btn {
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .reset-btn:after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: transparent;
+      z-index: -2;
+    }
+    
+    .reset-btn:before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 100%;
+      background-color: transparent;
+      transition: all 0.3s;
+      z-index: -1;
+    }
+    
+    .reset-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+    
+    .reset-btn:active {
+      transform: scale(0.98);
+    }
+    
+    /* تحسين أزرار الطباعة */
+    .print-btn {
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .print-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+    }
+    
+    .print-btn:active {
+      transform: scale(0.98);
+    }
+    
+    /* تحسين ظهور النتائج */
+    .result-appear {
+      animation: resultAppear 0.5s ease-out;
+    }
+    
+    @keyframes resultAppear {
+      0% {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
+    /* تحسين التجاوب مع الأجهزة المحمولة */
+    @media (max-width: 768px) {
+      .hero-bg h1 {
+        font-size: 1.75rem;
+      }
+      
+      .calculator-tabs .btn {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+      }
+      
+      .stat-value .text-6xl {
+        font-size: 2.5rem;
+      }
+      
+      .form-control label .label-text {
+        font-size: 1rem;
+      }
+      
+      .form-control input, .form-control select {
+        font-size: 1rem;
+      }
+      
+      .table {
+        font-size: 0.9rem;
+      }
+      
+      .grid-cols-1, .grid-cols-2 {
+        gap: 1rem !important;
+      }
+      
+      .card-body {
+        padding: 1rem !important;
+      }
+      
+      .container {
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+      }
     }
   </style>
 </head>
@@ -99,258 +224,543 @@
       <div class="flex items-center justify-between">
         <a class="flex items-center gap-2 text-xl font-bold">
           <i class="fas fa-calculator text-white text-2xl"></i>
-          حاسبة الطابوق
+          حاسبة مواد البناء
         </a>
-        <div class="badge badge-accent">الإصدار 2.0</div>
+        <div class="badge badge-accent">الإصدار 2.1</div>
       </div>
       <div class="py-6 text-center">
-        <h1 class="text-3xl font-bold mb-2">حاسبة كمية الطابوق للبناء</h1>
+        <h1 class="text-3xl font-bold mb-2">حاسبة مواد البناء</h1>
         <p class="text-white/90 max-w-xl mx-auto">
-          أداة لحساب كمية الطابوق المطلوبة لبناء الجدران بدقة عالية
+          أداة لحساب كمية مواد البناء المطلوبة بدقة عالية
         </p>
       </div>
     </div>
   </div>
 
+  <!-- Tabs Section -->
+  <div class="container mx-auto px-4 py-2">
+    <div class="flex justify-center my-4 calculator-tabs">
+      <div class="btn-group shadow-md">
+        <button class="btn btn-lg px-8 gap-2 btn-active btn-primary" onclick="showCalculator('brickCalculator')">
+          <i class="fas fa-th text-lg"></i>
+          حاسبة الطابوق
+        </button>
+        <button class="btn btn-lg px-8 gap-2" onclick="showCalculator('tileCalculator')">
+          <i class="fas fa-border-all text-lg"></i>
+          حاسبة البلاط
+        </button>
+      </div>
+    </div>
+  </div>
+
   <div class="container mx-auto px-4 py-6">
-    <div class="card bg-base-100">
-      <div class="card-body">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <!-- Form Section -->
-          <div class="p-4 rounded-xl">
-            <div class="flex items-center justify-between mb-6">
-              <h2 class="text-2xl font-bold text-secondary flex items-center">
-                <i class="fas fa-sliders-h mr-2 text-primary"></i>
-                بيانات الجدار
-              </h2>
-              <div class="badge badge-primary badge-lg p-3">املأ البيانات</div>
-            </div>
-            
-            <div class="card bg-base-200 shadow-md hover:shadow-lg transition-all duration-300 mb-6">
-              <div class="card-body p-5">
-                <div class="form-control mb-5">
-                  <label class="label">
-                    <span class="label-text text-lg font-medium flex items-center">
-                      <i class="fas fa-arrows-alt-h text-primary ml-2"></i>
-                      طول الجدار (متر):
-                    </span>
-                  </label>
-                  <div class="join w-full">
-                    <div class="join-item bg-primary w-12 flex items-center justify-center">
-                      <i class="fas fa-ruler-horizontal text-white"></i>
+    <!-- Calculators Container -->
+    <div class="calculators-container">
+      <!-- Brick Calculator Section -->
+      <div id="brickCalculator" class="card bg-base-100">
+        <div class="card-body">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Form Section -->
+            <div class="p-4 rounded-xl">
+              <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-secondary flex items-center">
+                  <i class="fas fa-sliders-h mr-2 text-primary"></i>
+                  بيانات الجدار
+                </h2>
+                <div class="badge badge-primary badge-lg p-3">املأ البيانات</div>
+              </div>
+              
+              <div class="card bg-base-200 shadow-md hover:shadow-lg transition-all duration-300 mb-6">
+                <div class="card-body p-5">
+                  <div class="form-control mb-5">
+                    <label class="label">
+                      <span class="label-text text-lg font-medium flex items-center">
+                        <i class="fas fa-arrows-alt-h text-primary ml-2"></i>
+                        طول الجدار (متر):
+                      </span>
+                    </label>
+                    <div class="join w-full">
+                      <div class="join-item bg-primary w-12 flex items-center justify-center">
+                        <i class="fas fa-ruler-horizontal text-white"></i>
+                      </div>
+                      <input type="number" id="wallLength" min="0.1" step="0.1" placeholder="أدخل الطول بالمتر" class="input input-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary" />
                     </div>
-                    <input type="number" id="wallLength" min="0.1" step="0.1" placeholder="أدخل الطول بالمتر" class="input input-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary" />
                   </div>
-                </div>
 
-                <div class="form-control mb-5">
-                  <label class="label">
-                    <span class="label-text text-lg font-medium flex items-center">
-                      <i class="fas fa-arrows-alt-v text-primary ml-2"></i>
-                      ارتفاع الجدار (متر):
-                    </span>
-                  </label>
-                  <div class="join w-full">
-                    <div class="join-item bg-primary w-12 flex items-center justify-center">
-                      <i class="fas fa-ruler-vertical text-white"></i>
+                  <div class="form-control mb-5">
+                    <label class="label">
+                      <span class="label-text text-lg font-medium flex items-center">
+                        <i class="fas fa-arrows-alt-v text-primary ml-2"></i>
+                        ارتفاع الجدار (متر):
+                      </span>
+                    </label>
+                    <div class="join w-full">
+                      <div class="join-item bg-primary w-12 flex items-center justify-center">
+                        <i class="fas fa-ruler-vertical text-white"></i>
+                      </div>
+                      <input type="number" id="wallHeight" min="0.1" step="0.1" placeholder="أدخل الارتفاع بالمتر" class="input input-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary" />
                     </div>
-                    <input type="number" id="wallHeight" min="0.1" step="0.1" placeholder="أدخل الارتفاع بالمتر" class="input input-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary" />
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div class="card bg-base-200 shadow-md hover:shadow-lg transition-all duration-300 mb-6">
-              <div class="card-body p-5">
-                <div class="form-control mb-5">
-                  <label class="label">
-                    <span class="label-text text-lg font-medium flex items-center">
-                      <i class="fas fa-cubes text-primary ml-2"></i>
-                      نوع الطابوق:
-                    </span>
-                  </label>
-                  <div class="join w-full">
-                    <div class="join-item bg-primary w-12 flex items-center justify-center">
-                      <i class="fas fa-th text-white"></i>
+              <div class="card bg-base-200 shadow-md hover:shadow-lg transition-all duration-300 mb-6">
+                <div class="card-body p-5">
+                  <div class="form-control mb-5">
+                    <label class="label">
+                      <span class="label-text text-lg font-medium flex items-center">
+                        <i class="fas fa-cubes text-primary ml-2"></i>
+                        نوع الطابوق:
+                      </span>
+                    </label>
+                    <div class="join w-full">
+                      <div class="join-item bg-primary w-12 flex items-center justify-center">
+                        <i class="fas fa-th text-white"></i>
+                      </div>
+                      <select id="brickType" class="select select-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary">
+                        <option value="standard">طابوق قياسي (24×12×8 سم)</option>
+                        <option value="hollow">طابوق مجوف (40×20×20 سم)</option>
+                        <option value="concrete">بلوك خرساني (39×19×19 سم)</option>
+                        <option value="thermal">طابوق حراري (30×20×15 سم)</option>
+                      </select>
                     </div>
-                    <select id="brickType" class="select select-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary">
-                      <option value="standard">طابوق قياسي (24×12×8 سم)</option>
-                      <option value="hollow">طابوق مجوف (40×20×20 سم)</option>
-                      <option value="concrete">بلوك خرساني (39×19×19 سم)</option>
-                      <option value="thermal">طابوق حراري (30×20×15 سم)</option>
-                    </select>
                   </div>
-                </div>
 
-                <div class="form-control mb-5">
-                  <label class="label">
-                    <span class="label-text text-lg font-medium flex items-center">
-                      <i class="fas fa-chart-pie text-primary ml-2"></i>
-                      نسبة الهدر (%):
-                    </span>
-                    <span class="label-text-alt badge badge-primary">يُنصح ب 10%</span>
-                  </label>
-                  <div class="join w-full">
-                    <div class="join-item bg-primary w-12 flex items-center justify-center">
-                      <i class="fas fa-percentage text-white"></i>
+                  <div class="form-control mb-5">
+                    <label class="label">
+                      <span class="label-text text-lg font-medium flex items-center">
+                        <i class="fas fa-chart-pie text-primary ml-2"></i>
+                        نسبة الهدر (%):
+                      </span>
+                      <span class="label-text-alt badge badge-primary">يُنصح ب 10%</span>
+                    </label>
+                    <div class="join w-full">
+                      <div class="join-item bg-primary w-12 flex items-center justify-center">
+                        <i class="fas fa-percentage text-white"></i>
+                      </div>
+                      <input type="number" id="wastage" value="10" min="0" max="30" class="input input-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary" />
                     </div>
-                    <input type="number" id="wastage" value="10" min="0" max="30" class="input input-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary" />
                   </div>
-                </div>
 
-                <div class="form-control mb-5">
-                  <label class="label">
-                    <span class="label-text text-lg font-medium flex items-center">
-                      <i class="fas fa-money-bill-wave text-primary ml-2"></i>
-                      سعر الطابوق الواحد:
-                    </span>
-                    <span class="label-text-alt badge badge-accent">اختياري</span>
-                  </label>
-                  <div class="join w-full">
-                    <div class="join-item bg-primary w-12 flex items-center justify-center">
-                      <i class="fas fa-coins text-white"></i>
-                    </div>
-                    <input type="number" id="brickPrice" min="0" step="0.01" placeholder="أدخل السعر" class="input input-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary" />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="card bg-accent/10 border border-accent shadow-md mt-8 mb-4">
-              <div class="card-body p-4">
-                <div class="grid grid-cols-1 gap-5">
-                  <button onclick="calculateBricks()" class="btn btn-primary btn-lg btn-wide mx-auto text-lg gap-2 hover:scale-[1.02] transition-transform">
-                    <i class="fas fa-calculator"></i>
-                    حساب كمية الطابوق
-                  </button>
-                  <button onclick="resetForm()" class="btn btn-outline btn-error btn-wide mx-auto text-lg gap-2">
-                    <i class="fas fa-redo-alt"></i>
-                    إعادة تعيين
-                  </button>
-                </div>
-              </div>
-            </div>
-            
-            <div id="error" class="alert alert-error mt-6 hidden">
-              <i class="fas fa-exclamation-circle ml-2 text-lg"></i>
-              <span id="errorMessage" class="text-lg"></span>
-            </div>
-          </div>
-          
-          <!-- Results Section -->
-          <div id="result" class="bg-base-100 rounded-xl p-4 hidden animate-fadeIn">
-            <h2 class="text-2xl font-bold text-secondary mb-6 flex items-center">
-              <i class="fas fa-clipboard-list mr-2 text-primary"></i>
-              نتائج الحساب
-            </h2>
-            
-            <div class="overflow-x-auto">
-              <table class="table table-zebra w-full border text-lg">
-                <tbody>
-                  <tr>
-                    <td class="font-medium bg-base-200">
-                      <div class="flex items-center">
-                        <i class="fas fa-vector-square text-primary ml-2"></i>
-                        مساحة الجدار:
-                      </div>
-                    </td>
-                    <td class="text-primary font-bold"><span id="wallArea">0</span> متر مربع</td>
-                  </tr>
-                  <tr>
-                    <td class="font-medium bg-base-200">
-                      <div class="flex items-center">
-                        <i class="fas fa-grip-lines text-primary ml-2"></i>
-                        عدد الطابوق في الصف الواحد:
-                      </div>
-                    </td>
-                    <td class="text-primary font-bold"><span id="bricksPerRow">0</span> قطعة</td>
-                  </tr>
-                  <tr>
-                    <td class="font-medium bg-base-200">
-                      <div class="flex items-center">
-                        <i class="fas fa-layer-group text-primary ml-2"></i>
-                        عدد الصفوف:
-                      </div>
-                    </td>
-                    <td class="text-primary font-bold"><span id="rows">0</span> صف</td>
-                  </tr>
-                  <tr>
-                    <td class="font-medium bg-base-200">
-                      <div class="flex items-center">
-                        <i class="fas fa-th text-primary ml-2"></i>
-                        إجمالي عدد الطابوق (بدون هدر):
-                      </div>
-                    </td>
-                    <td class="text-primary font-bold"><span id="totalBricks">0</span> قطعة</td>
-                  </tr>
-                  <tr>
-                    <td class="font-medium bg-base-200">
-                      <div class="flex items-center">
-                        <i class="fas fa-plus-circle text-primary ml-2"></i>
-                        كمية الهدر المضافة (<span id="wastagePercentage">10</span>%):
-                      </div>
-                    </td>
-                    <td class="text-primary font-bold"><span id="wastageAmount">0</span> قطعة</td>
-                  </tr>
-                  <tr>
-                    <td class="font-medium bg-base-200">
-                      <div class="flex items-center">
-                        <i class="fas fa-calculator text-primary ml-2"></i>
-                        معدل الطابوق لكل متر مربع:
-                      </div>
-                    </td>
-                    <td class="text-primary font-bold"><span id="bricksPerSqm">0</span> قطعة/م²</td>
-                  </tr>
-                  <tr id="costRow" class="hidden">
-                    <td class="font-medium bg-base-200">
-                      <div class="flex items-center">
+                  <div class="form-control mb-5">
+                    <label class="label">
+                      <span class="label-text text-lg font-medium flex items-center">
                         <i class="fas fa-money-bill-wave text-primary ml-2"></i>
-                        التكلفة التقديرية:
+                        سعر الطابوق الواحد:
+                      </span>
+                      <span class="label-text-alt badge badge-accent">اختياري</span>
+                    </label>
+                    <div class="join w-full">
+                      <div class="join-item bg-primary w-12 flex items-center justify-center">
+                        <i class="fas fa-coins text-white"></i>
                       </div>
-                    </td>
-                    <td class="text-primary font-bold"><span id="totalCost">0</span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            
-            <div class="stats shadow-lg mt-6 w-full bg-gradient-to-br from-primary to-accent rounded-2xl border-4 border-base-300">
-              <div class="stat place-items-center p-6 bg-white/95 backdrop-blur-sm">
-                <div class="stat-title text-xl font-bold text-primary">إجمالي عدد الطابوق المطلوب</div>
-                <div class="stat-value py-4 flex items-center justify-center">
-                  <div class="relative">
-                    <div class="absolute inset-0 bg-accent/20 rounded-xl blur-md"></div>
-                    <div class="relative z-10 bg-base-100 shadow-inner border-2 border-accent rounded-xl px-8 py-3">
-                      <span id="totalWithWastage" class="text-6xl font-black text-primary">0</span>
+                      <input type="number" id="brickPrice" min="0" step="0.01" placeholder="أدخل السعر" class="input input-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary" />
                     </div>
                   </div>
                 </div>
-                <div class="stat-desc badge badge-lg badge-primary text-xl font-bold mt-2 py-3 px-4">قطعة</div>
               </div>
-            </div>
-            
-            <div class="alert alert-info mt-6">
-              <div class="flex items-center">
-                <i class="fas fa-lightbulb ml-2 text-lg"></i>
-                <div class="text-lg">
-                  <p>إذا كان لديك مساحة <span id="wallAreaTip">0</span> متر مربع، فستحتاج إلى <span id="totalWithWastageTip">0</span> قطعة من الطابوق لإكمال البناء.</p>
+
+              <div class="card bg-accent/10 border border-accent shadow-md mt-8 mb-4">
+                <div class="card-body p-4">
+                  <div class="grid grid-cols-1 gap-5">
+                    <button onclick="calculateBricks()" class="btn calculator-btn btn-primary btn-lg btn-wide mx-auto text-lg gap-2 hover:scale-[1.02] transition-transform">
+                      <i class="fas fa-calculator"></i>
+                      حساب كمية الطابوق
+                    </button>
+                    <button onclick="resetForm()" class="btn reset-btn btn-outline btn-error btn-wide mx-auto text-lg gap-2">
+                      <i class="fas fa-redo-alt"></i>
+                      إعادة تعيين
+                    </button>
+                  </div>
                 </div>
               </div>
+              
+              <div id="error" class="alert alert-error mt-6 hidden">
+                <i class="fas fa-exclamation-circle ml-2 text-lg"></i>
+                <span id="errorMessage" class="text-lg"></span>
+              </div>
             </div>
             
-            <button onclick="printResults()" class="btn btn-accent btn-wide mx-auto mt-6 text-lg">
-              <i class="fas fa-print ml-2"></i>
-              طباعة النتائج
-            </button>
+            <!-- Results Section -->
+            <div id="result" class="bg-base-100 rounded-xl p-4 hidden animate-fadeIn result-appear">
+              <h2 class="text-2xl font-bold text-secondary mb-6 flex items-center">
+                <i class="fas fa-clipboard-list mr-2 text-primary"></i>
+                نتائج الحساب
+              </h2>
+              
+              <div class="overflow-x-auto">
+                <table class="table table-zebra w-full border text-lg">
+                  <tbody>
+                    <tr>
+                      <td class="font-medium bg-base-200">
+                        <div class="flex items-center">
+                          <i class="fas fa-vector-square text-primary ml-2"></i>
+                          مساحة الجدار:
+                        </div>
+                      </td>
+                      <td class="text-primary font-bold"><span id="wallArea">0</span> متر مربع</td>
+                    </tr>
+                    <tr>
+                      <td class="font-medium bg-base-200">
+                        <div class="flex items-center">
+                          <i class="fas fa-grip-lines text-primary ml-2"></i>
+                          عدد الطابوق في الصف الواحد:
+                        </div>
+                      </td>
+                      <td class="text-primary font-bold"><span id="bricksPerRow">0</span> قطعة</td>
+                    </tr>
+                    <tr>
+                      <td class="font-medium bg-base-200">
+                        <div class="flex items-center">
+                          <i class="fas fa-layer-group text-primary ml-2"></i>
+                          عدد الصفوف:
+                        </div>
+                      </td>
+                      <td class="text-primary font-bold"><span id="rows">0</span> صف</td>
+                    </tr>
+                    <tr>
+                      <td class="font-medium bg-base-200">
+                        <div class="flex items-center">
+                          <i class="fas fa-th text-primary ml-2"></i>
+                          إجمالي عدد الطابوق (بدون هدر):
+                        </div>
+                      </td>
+                      <td class="text-primary font-bold"><span id="totalBricks">0</span> قطعة</td>
+                    </tr>
+                    <tr>
+                      <td class="font-medium bg-base-200">
+                        <div class="flex items-center">
+                          <i class="fas fa-plus-circle text-primary ml-2"></i>
+                          كمية الهدر المضافة (<span id="wastagePercentage">10</span>%):
+                        </div>
+                      </td>
+                      <td class="text-primary font-bold"><span id="wastageAmount">0</span> قطعة</td>
+                    </tr>
+                    <tr>
+                      <td class="font-medium bg-base-200">
+                        <div class="flex items-center">
+                          <i class="fas fa-calculator text-primary ml-2"></i>
+                          معدل الطابوق لكل متر مربع:
+                        </div>
+                      </td>
+                      <td class="text-primary font-bold"><span id="bricksPerSqm">0</span> قطعة/م²</td>
+                    </tr>
+                    <tr id="costRow" class="hidden">
+                      <td class="font-medium bg-base-200">
+                        <div class="flex items-center">
+                          <i class="fas fa-money-bill-wave text-primary ml-2"></i>
+                          التكلفة التقديرية:
+                        </div>
+                      </td>
+                      <td class="text-primary font-bold"><span id="totalCost">0</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+              <div class="stats shadow-lg mt-6 w-full bg-gradient-to-br from-primary to-accent rounded-2xl border-4 border-base-300">
+                <div class="stat place-items-center p-6 bg-white/95 backdrop-blur-sm">
+                  <div class="stat-title text-xl font-bold text-primary">إجمالي عدد الطابوق المطلوب</div>
+                  <div class="stat-value py-4 flex items-center justify-center">
+                    <div class="relative">
+                      <div class="absolute inset-0 bg-accent/20 rounded-xl blur-md"></div>
+                      <div class="relative z-10 bg-base-100 shadow-inner border-2 border-accent rounded-xl px-8 py-3">
+                        <span id="totalWithWastage" class="text-6xl font-black text-primary">0</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="stat-desc badge badge-lg badge-primary text-xl font-bold mt-2 py-3 px-4">قطعة</div>
+                </div>
+              </div>
+              
+              <div class="alert alert-info mt-6">
+                <div class="flex items-center">
+                  <i class="fas fa-lightbulb ml-2 text-lg"></i>
+                  <div class="text-lg">
+                    <p>إذا كان لديك مساحة <span id="wallAreaTip">0</span> متر مربع، فستحتاج إلى <span id="totalWithWastageTip">0</span> قطعة من الطابوق لإكمال البناء.</p>
+                  </div>
+                </div>
+              </div>
+              
+              <button onclick="printResults()" class="btn print-btn btn-accent btn-wide mx-auto mt-6 text-lg">
+                <i class="fas fa-print ml-2"></i>
+                طباعة النتائج
+              </button>
+            </div>
+            
           </div>
-          
+        </div>
+      </div>
+
+      <!-- Tile Calculator Section -->
+      <div id="tileCalculator" class="card bg-base-100 hidden">
+        <div class="card-body">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Form Section -->
+            <div class="p-4 rounded-xl">
+              <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-secondary flex items-center">
+                  <i class="fas fa-border-all mr-2 text-primary"></i>
+                  بيانات الغرفة
+                </h2>
+                <div class="badge badge-primary badge-lg p-3">املأ البيانات</div>
+              </div>
+              
+              <div class="card bg-base-200 shadow-md hover:shadow-lg transition-all duration-300 mb-6">
+                <div class="card-body p-5">
+                  <div class="form-control mb-5">
+                    <label class="label">
+                      <span class="label-text text-lg font-medium flex items-center">
+                        <i class="fas fa-arrows-alt-h text-primary ml-2"></i>
+                        طول الغرفة (متر):
+                      </span>
+                    </label>
+                    <div class="join w-full">
+                      <div class="join-item bg-primary w-12 flex items-center justify-center">
+                        <i class="fas fa-ruler-horizontal text-white"></i>
+                      </div>
+                      <input type="number" id="roomLength" min="0.1" step="0.1" placeholder="أدخل الطول بالمتر" class="input input-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary" />
+                    </div>
+                  </div>
+
+                  <div class="form-control mb-5">
+                    <label class="label">
+                      <span class="label-text text-lg font-medium flex items-center">
+                        <i class="fas fa-arrows-alt-v text-primary ml-2"></i>
+                        عرض الغرفة (متر):
+                      </span>
+                    </label>
+                    <div class="join w-full">
+                      <div class="join-item bg-primary w-12 flex items-center justify-center">
+                        <i class="fas fa-ruler-vertical text-white"></i>
+                      </div>
+                      <input type="number" id="roomWidth" min="0.1" step="0.1" placeholder="أدخل العرض بالمتر" class="input input-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card bg-base-200 shadow-md hover:shadow-lg transition-all duration-300 mb-6">
+                <div class="card-body p-5">
+                  <div class="form-control mb-5">
+                    <label class="label">
+                      <span class="label-text text-lg font-medium flex items-center">
+                        <i class="fas fa-th-large text-primary ml-2"></i>
+                        نوع البلاط:
+                      </span>
+                    </label>
+                    <div class="join w-full">
+                      <div class="join-item bg-primary w-12 flex items-center justify-center">
+                        <i class="fas fa-layer-group text-white"></i>
+                      </div>
+                      <select id="tileType" class="select select-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary" onchange="updateTileSizes()">
+                        <option value="ceramic">سيراميك</option>
+                        <option value="porcelain">بورسلين</option>
+                        <option value="marble">رخام</option>
+                        <option value="granite">جرانيت</option>
+                        <option value="mosaic">موزاييك</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-control mb-5">
+                    <label class="label">
+                      <span class="label-text text-lg font-medium flex items-center">
+                        <i class="fas fa-expand-arrows-alt text-primary ml-2"></i>
+                        حجم البلاط:
+                      </span>
+                    </label>
+                    <div class="join w-full">
+                      <div class="join-item bg-primary w-12 flex items-center justify-center">
+                        <i class="fas fa-vector-square text-white"></i>
+                      </div>
+                      <select id="tileSize" class="select select-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary">
+                        <option value="30x30">30 × 30 سم</option>
+                        <option value="40x40">40 × 40 سم</option>
+                        <option value="60x60" selected>60 × 60 سم</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-control mb-5">
+                    <label class="label">
+                      <span class="label-text text-lg font-medium flex items-center">
+                        <i class="fas fa-directions text-primary ml-2"></i>
+                        اتجاه التركيب:
+                      </span>
+                    </label>
+                    <div class="join w-full">
+                      <div class="join-item bg-primary w-12 flex items-center justify-center">
+                        <i class="fas fa-random text-white"></i>
+                      </div>
+                      <select id="tilePattern" class="select select-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary">
+                        <option value="straight">عادي (متوازي)</option>
+                        <option value="diagonal">قطري (45 درجة)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-control mb-5">
+                    <label class="label">
+                      <span class="label-text text-lg font-medium flex items-center">
+                        <i class="fas fa-chart-pie text-primary ml-2"></i>
+                        نسبة الهدر (%):
+                      </span>
+                      <span class="label-text-alt badge badge-primary">يُنصح ب 10%</span>
+                    </label>
+                    <div class="join w-full">
+                      <div class="join-item bg-primary w-12 flex items-center justify-center">
+                        <i class="fas fa-percentage text-white"></i>
+                      </div>
+                      <input type="number" id="tileWastage" value="10" min="0" max="30" class="input input-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary" />
+                    </div>
+                  </div>
+
+                  <div class="form-control mb-5">
+                    <label class="label">
+                      <span class="label-text text-lg font-medium flex items-center">
+                        <i class="fas fa-money-bill-wave text-primary ml-2"></i>
+                        سعر المتر المربع (درهم):
+                      </span>
+                      <span class="label-text-alt badge badge-accent">اختياري</span>
+                    </label>
+                    <div class="join w-full">
+                      <div class="join-item bg-primary w-12 flex items-center justify-center">
+                        <i class="fas fa-coins text-white"></i>
+                      </div>
+                      <input type="number" id="tilePrice" min="0" step="0.01" placeholder="أدخل السعر" class="input input-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card bg-accent/10 border border-accent shadow-md mt-8 mb-4">
+                <div class="card-body p-4">
+                  <div class="grid grid-cols-1 gap-5">
+                    <button onclick="calculateTiles()" class="btn calculator-btn btn-primary btn-lg btn-wide mx-auto text-lg gap-2 hover:scale-[1.02] transition-transform">
+                      <i class="fas fa-calculator"></i>
+                      حساب كمية البلاط
+                    </button>
+                    <button onclick="resetTileForm()" class="btn reset-btn btn-outline btn-error btn-wide mx-auto text-lg gap-2">
+                      <i class="fas fa-redo-alt"></i>
+                      إعادة تعيين
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              <div id="tileError" class="alert alert-error mt-6 hidden">
+                <i class="fas fa-exclamation-circle ml-2 text-lg"></i>
+                <span id="tileErrorMessage" class="text-lg"></span>
+              </div>
+            </div>
+            
+            <!-- Results Section -->
+            <div id="tileResult" class="bg-base-100 rounded-xl p-4 hidden animate-fadeIn result-appear">
+              <h2 class="text-2xl font-bold text-secondary mb-6 flex items-center">
+                <i class="fas fa-clipboard-list mr-2 text-primary"></i>
+                نتائج الحساب
+              </h2>
+              
+              <div class="overflow-x-auto">
+                <table class="table table-zebra w-full border text-lg">
+                  <tbody>
+                    <tr>
+                      <td class="font-medium bg-base-200">
+                        <div class="flex items-center">
+                          <i class="fas fa-vector-square text-primary ml-2"></i>
+                          مساحة الغرفة:
+                        </div>
+                      </td>
+                      <td class="text-primary font-bold"><span id="roomArea">0</span> متر مربع</td>
+                    </tr>
+                    <tr>
+                      <td class="font-medium bg-base-200">
+                        <div class="flex items-center">
+                          <i class="fas fa-th-large text-primary ml-2"></i>
+                          مساحة البلاطة الواحدة:
+                        </div>
+                      </td>
+                      <td class="text-primary font-bold"><span id="tileArea">0</span> متر مربع</td>
+                    </tr>
+                    <tr>
+                      <td class="font-medium bg-base-200">
+                        <div class="flex items-center">
+                          <i class="fas fa-calculator text-primary ml-2"></i>
+                          عدد البلاط المطلوب (بدون هدر):
+                        </div>
+                      </td>
+                      <td class="text-primary font-bold"><span id="totalTiles">0</span> قطعة</td>
+                    </tr>
+                    <tr>
+                      <td class="font-medium bg-base-200">
+                        <div class="flex items-center">
+                          <i class="fas fa-plus-circle text-primary ml-2"></i>
+                          كمية الهدر المضافة (<span id="tileWastagePercentage">10</span>%):
+                        </div>
+                      </td>
+                      <td class="text-primary font-bold"><span id="tileWastageAmount">0</span> قطعة</td>
+                    </tr>
+                    <tr>
+                      <td class="font-medium bg-base-200">
+                        <div class="flex items-center">
+                          <i class="fas fa-boxes text-primary ml-2"></i>
+                          عدد العبوات المطلوبة:
+                        </div>
+                      </td>
+                      <td class="text-primary font-bold"><span id="boxesNeeded">0</span> عبوة (<span id="tilesPerBox">0</span> قطعة/عبوة)</td>
+                    </tr>
+                    <tr id="tileCostRow" class="hidden">
+                      <td class="font-medium bg-base-200">
+                        <div class="flex items-center">
+                          <i class="fas fa-money-bill-wave text-primary ml-2"></i>
+                          التكلفة التقديرية:
+                        </div>
+                      </td>
+                      <td class="text-primary font-bold"><span id="totalTileCost">0</span> درهم</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+              <div class="stats shadow-lg mt-6 w-full bg-gradient-to-br from-primary to-accent rounded-2xl border-4 border-base-300">
+                <div class="stat place-items-center p-6 bg-white/95 backdrop-blur-sm">
+                  <div class="stat-title text-xl font-bold text-primary">إجمالي عدد البلاط المطلوب</div>
+                  <div class="stat-value py-4 flex items-center justify-center">
+                    <div class="relative">
+                      <div class="absolute inset-0 bg-accent/20 rounded-xl blur-md"></div>
+                      <div class="relative z-10 bg-base-100 shadow-inner border-2 border-accent rounded-xl px-8 py-3">
+                        <span id="totalWithTileWastage" class="text-6xl font-black text-primary">0</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="stat-desc badge badge-lg badge-primary text-xl font-bold mt-2 py-3 px-4">قطعة</div>
+                </div>
+              </div>
+              
+              <div class="alert alert-info mt-6">
+                <div class="flex items-center">
+                  <i class="fas fa-lightbulb ml-2 text-lg"></i>
+                  <div class="text-lg">
+                    <p>لتبليط مساحة <span id="roomAreaTip">0</span> متر مربع، ستحتاج إلى <span id="totalWithTileWastageTip">0</span> قطعة من البلاط.</p>
+                  </div>
+                </div>
+              </div>
+              
+              <button onclick="printTileResults()" class="btn print-btn btn-accent btn-wide mx-auto mt-6 text-lg">
+                <i class="fas fa-print ml-2"></i>
+                طباعة النتائج
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    
-    <footer class="footer footer-center p-8 bg-base-100 text-base-content mt-8">
+
+    <!-- Global Footer - always visible -->
+    <footer class="footer footer-center p-8 bg-base-100 text-base-content mt-12 shadow-md rounded-lg">
       <div>
-        <p class="text-lg">حاسبة الطابوق © 2023 | جميع الحقوق محفوظة</p>
+        <p class="text-lg">حاسبة مواد البناء © 2023 | جميع الحقوق محفوظة</p>
       </div>
     </footer>
   </div>
@@ -379,6 +789,222 @@
         mortar: 1.5,
       }
     };
+
+    // أنواع البلاط ومواصفاتها
+    const TILE_TYPES = {
+      ceramic: {
+        name: 'سيراميك',
+        sizes: {
+          '30x30': { width: 30, height: 30, tilesPerBox: 11 },
+          '40x40': { width: 40, height: 40, tilesPerBox: 6 },
+          '60x60': { width: 60, height: 60, tilesPerBox: 4 }
+        }
+      },
+      porcelain: {
+        name: 'بورسلين',
+        sizes: {
+          '60x60': { width: 60, height: 60, tilesPerBox: 4 },
+          '80x80': { width: 80, height: 80, tilesPerBox: 3 },
+          '120x60': { width: 120, height: 60, tilesPerBox: 2 }
+        }
+      },
+      marble: {
+        name: 'رخام',
+        sizes: {
+          '60x60': { width: 60, height: 60, tilesPerBox: 4 },
+          '80x80': { width: 80, height: 80, tilesPerBox: 2 },
+          '100x100': { width: 100, height: 100, tilesPerBox: 1 }
+        }
+      },
+      granite: {
+        name: 'جرانيت',
+        sizes: {
+          '60x60': { width: 60, height: 60, tilesPerBox: 4 },
+          '80x80': { width: 80, height: 80, tilesPerBox: 2 },
+          '100x100': { width: 100, height: 100, tilesPerBox: 1 }
+        }
+      },
+      mosaic: {
+        name: 'موزاييك',
+        sizes: {
+          '30x30': { width: 30, height: 30, tilesPerBox: 11 },
+          '40x40': { width: 40, height: 40, tilesPerBox: 6 },
+          '50x50': { width: 50, height: 50, tilesPerBox: 4 }
+        }
+      }
+    };
+
+    // التبديل بين الحاسبات
+    function showCalculator(calculatorId) {
+      // تحديث حالة التبويبات
+      document.querySelectorAll('.btn-group .btn').forEach(tab => {
+        tab.classList.remove('btn-active', 'btn-primary');
+      });
+      
+      // إخفاء جميع الحاسبات مع تأثير انتقالي
+      document.querySelectorAll('.calculators-container > div').forEach(calculator => {
+        calculator.classList.add('hidden');
+        calculator.classList.remove('result-appear');
+      });
+      
+      // إظهار الحاسبة المطلوبة مع تأثير انتقالي
+      const selectedCalculator = document.getElementById(calculatorId);
+      selectedCalculator.classList.remove('hidden');
+      // تطبيق التأثير بعد إزالة الإخفاء بوقت قصير ليعمل بشكل صحيح
+      setTimeout(() => {
+        selectedCalculator.classList.add('result-appear');
+      }, 10);
+      
+      // تحديد التبويب النشط
+      if (calculatorId === 'brickCalculator') {
+        document.querySelector('.btn-group .btn:nth-child(1)').classList.add('btn-active', 'btn-primary');
+      } else {
+        document.querySelector('.btn-group .btn:nth-child(2)').classList.add('btn-active', 'btn-primary');
+      }
+    }
+
+    // تحديث أحجام البلاط بناءً على النوع المختار
+    function updateTileSizes() {
+      const tileType = document.getElementById('tileType').value;
+      const tileSizeSelect = document.getElementById('tileSize');
+      
+      // إفراغ القائمة
+      tileSizeSelect.innerHTML = '';
+      
+      // إضافة الأحجام المتاحة للنوع المختار
+      const sizes = TILE_TYPES[tileType].sizes;
+      Object.keys(sizes).forEach(sizeKey => {
+        const size = sizes[sizeKey];
+        const option = document.createElement('option');
+        option.value = sizeKey;
+        option.textContent = `${size.width} × ${size.height} سم`;
+        tileSizeSelect.appendChild(option);
+      });
+    }
+
+    // حساب كمية البلاط
+    function calculateTiles() {
+      // إخفاء النتائج ورسائل الخطأ السابقة
+      document.getElementById('tileError').classList.add('hidden');
+      document.getElementById('tileResult').classList.add('hidden');
+      
+      // استلام المدخلات
+      const roomLengthInput = document.getElementById('roomLength').value;
+      const roomWidthInput = document.getElementById('roomWidth').value;
+      const tileTypeId = document.getElementById('tileType').value;
+      const tileSizeId = document.getElementById('tileSize').value;
+      const tilePattern = document.getElementById('tilePattern').value;
+      const wastagePercentage = parseInt(document.getElementById('tileWastage').value) || 10;
+      const tilePrice = parseFloat(document.getElementById('tilePrice').value) || 0;
+      
+      // التحقق من المدخلات
+      if (!roomLengthInput || !roomWidthInput) {
+        showTileError('الرجاء إدخال طول وعرض الغرفة');
+        return;
+      }
+      
+      const roomLength = parseFloat(roomLengthInput);
+      const roomWidth = parseFloat(roomWidthInput);
+      
+      if (isNaN(roomLength) || isNaN(roomWidth) || roomLength <= 0 || roomWidth <= 0) {
+        showTileError('الرجاء إدخال أرقام صحيحة موجبة للأبعاد');
+        return;
+      }
+      
+      // الحصول على معلومات البلاط
+      const tileType = TILE_TYPES[tileTypeId];
+      if (!tileType) {
+        showTileError('نوع البلاط غير صحيح');
+        return;
+      }
+      
+      const tileSize = tileType.sizes[tileSizeId];
+      if (!tileSize) {
+        showTileError('حجم البلاط غير متوفر');
+        return;
+      }
+      
+      // حساب مساحة الغرفة والبلاطة
+      const roomAreaSqm = (roomLength * roomWidth).toFixed(2);
+      const tileWidthM = tileSize.width / 100; // تحويل من سم إلى متر
+      const tileHeightM = tileSize.height / 100; // تحويل من سم إلى متر
+      const tileAreaSqm = (tileWidthM * tileHeightM).toFixed(4);
+      
+      // حساب عدد البلاط المطلوب
+      let tilesNeeded;
+      
+      if (tilePattern === 'straight') {
+        // الحساب العادي (المستقيم)
+        tilesNeeded = Math.ceil(roomAreaSqm / tileAreaSqm);
+      } else {
+        // الحساب القطري (يضيف 10% كمية إضافية بسبب القص)
+        tilesNeeded = Math.ceil(roomAreaSqm / tileAreaSqm * 1.1);
+      }
+      
+      // إضافة نسبة الهدر
+      const wastageAmount = Math.ceil(tilesNeeded * (wastagePercentage / 100));
+      const totalWithWastage = tilesNeeded + wastageAmount;
+      
+      // حساب عدد العبوات
+      const tilesPerBox = tileSize.tilesPerBox;
+      const boxesNeeded = Math.ceil(totalWithWastage / tilesPerBox);
+      
+      // حساب التكلفة إذا تم إدخال السعر
+      const tileCostRow = document.getElementById('tileCostRow');
+      if (tilePrice > 0) {
+        const totalCost = (roomAreaSqm * tilePrice).toFixed(2);
+        document.getElementById('totalTileCost').textContent = totalCost;
+        tileCostRow.classList.remove('hidden');
+      } else {
+        tileCostRow.classList.add('hidden');
+      }
+      
+      // عرض النتائج
+      document.getElementById('roomArea').textContent = roomAreaSqm;
+      document.getElementById('tileArea').textContent = tileAreaSqm;
+      document.getElementById('totalTiles').textContent = tilesNeeded;
+      document.getElementById('tileWastagePercentage').textContent = wastagePercentage;
+      document.getElementById('tileWastageAmount').textContent = wastageAmount;
+      document.getElementById('totalWithTileWastage').textContent = totalWithWastage;
+      document.getElementById('boxesNeeded').textContent = boxesNeeded;
+      document.getElementById('tilesPerBox').textContent = tilesPerBox;
+      
+      // عرض معلومات إضافية للنصائح
+      document.getElementById('roomAreaTip').textContent = roomAreaSqm;
+      document.getElementById('totalWithTileWastageTip').textContent = totalWithWastage;
+      
+      document.getElementById('tileResult').classList.remove('hidden');
+      
+      // تمرير تلقائي إلى النتائج
+      document.getElementById('tileResult').scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    function showTileError(message) {
+      const errorElement = document.getElementById('tileError');
+      document.getElementById('tileErrorMessage').textContent = message;
+      errorElement.classList.remove('hidden');
+    }
+    
+    function resetTileForm() {
+      document.getElementById('roomLength').value = '';
+      document.getElementById('roomWidth').value = '';
+      document.getElementById('tileType').value = 'ceramic';
+      updateTileSizes();
+      document.getElementById('tilePattern').value = 'straight';
+      document.getElementById('tileWastage').value = '10';
+      document.getElementById('tilePrice').value = '';
+      document.getElementById('tileError').classList.add('hidden');
+      document.getElementById('tileResult').classList.add('hidden');
+    }
+    
+    function printTileResults() {
+      window.print();
+    }
+
+    // تنفيذ تحديث أحجام البلاط عند تحميل الصفحة
+    document.addEventListener('DOMContentLoaded', function() {
+      updateTileSizes();
+    });
 
     function calculateBricks() {
       // إخفاء النتائج ورسائل الخطأ السابقة
@@ -437,7 +1063,7 @@
       const costRow = document.getElementById('costRow');
       if (brickPrice > 0) {
         const totalCost = (totalWithWastage * brickPrice).toFixed(2);
-        document.getElementById('totalCost').textContent = totalCost + " (" + brickPrice + " × " + totalWithWastage + ")";
+        document.getElementById('totalCost').textContent = totalCost + " درهم";
         costRow.classList.remove('hidden');
       } else {
         costRow.classList.add('hidden');
