@@ -274,7 +274,7 @@
           <i class="fas fa-calculator text-white text-2xl"></i>
           حاسبة مواد البناء
         </a>
-        <div class="badge badge-accent">الإصدار 2.1</div>
+        <div class="badge badge-accent">الإصدار 2.2</div>
       </div>
       <div class="py-6 text-center">
         <h1 class="text-3xl font-bold mb-2">حاسبة مواد البناء</h1>
@@ -405,6 +405,22 @@
                     <input type="number" id="brickPrice" min="0" step="0.01" placeholder="أدخل السعر" class="input input-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary" />
                   </div>
                 </div>
+
+                <div class="form-control mb-5">
+                  <label class="label">
+                    <span class="label-text text-lg font-medium flex items-center">
+                      <i class="fas fa-cube text-primary ml-2"></i>
+                      سعر كيس الأسمنت:
+                    </span>
+                    <span class="label-text-alt badge badge-accent">اختياري</span>
+                  </label>
+                  <div class="join w-full">
+                    <div class="join-item bg-primary w-12 flex items-center justify-center">
+                      <i class="fas fa-tag text-white"></i>
+                    </div>
+                    <input type="number" id="cementPrice" min="0" step="0.01" placeholder="أدخل سعر كيس الأسمنت" class="input input-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary" />
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -501,6 +517,45 @@
                       </div>
                     </td>
                     <td class="text-primary font-bold"><span id="totalCost">0</span></td>
+                  </tr>
+                  <tr id="cementCostRow" class="hidden">
+                    <td class="font-medium bg-base-200">
+                      <div class="flex items-center">
+                        <i class="fas fa-cube text-primary ml-2"></i>
+                        تكلفة الأسمنت:
+                      </div>
+                    </td>
+                    <td class="text-primary font-bold"><span id="cementCost">0</span> درهم</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <div class="divider mt-6">المواد المطلوبة للبناء</div>
+            <div class="overflow-x-auto">
+              <table class="table table-zebra w-full">
+                <tbody>
+                  <tr>
+                    <td class="font-medium bg-base-200">
+                      <div class="flex items-center">
+                        <i class="fas fa-cube text-primary ml-2"></i>
+                        كمية الأسمنت المطلوبة:
+                      </div>
+                    </td>
+                    <td class="text-primary font-bold">
+                      <span id="cementBags">0</span> كيس
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="font-medium bg-base-200">
+                      <div class="flex items-center">
+                        <i class="fas fa-mountain text-primary ml-2"></i>
+                        كمية الرمل المطلوبة:
+                      </div>
+                    </td>
+                    <td class="text-primary font-bold">
+                      <span id="sandAmount">0</span> متر مكعب
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -599,7 +654,7 @@
                     </label>
                     <div class="join w-full">
                       <div class="join-item bg-primary w-12 flex items-center justify-center">
-                        <i class="fas fa-layer-group text-white"></i>
+                        <i class="fas fa-th-large text-white"></i>
                       </div>
                       <select id="tileType" class="select select-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary" onchange="updateTileSizes()">
                         <option value="ceramic">سيراميك</option>
@@ -622,11 +677,57 @@
                       <div class="join-item bg-primary w-12 flex items-center justify-center">
                         <i class="fas fa-vector-square text-white"></i>
                       </div>
-                      <select id="tileSize" class="select select-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary">
-                        <option value="30x30">30 × 30 سم</option>
-                        <option value="40x40">40 × 40 سم</option>
-                        <option value="60x60" selected>60 × 60 سم</option>
+                      <select id="tileSize" class="select select-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary" onchange="handleTileSizeChange()">
+                        <option value="custom">مقاس مخصص</option>
                       </select>
+                    </div>
+                  </div>
+
+                  <div id="customSizeFields" class="hidden">
+                    <div class="form-control mb-5">
+                      <label class="label">
+                        <span class="label-text text-lg font-medium flex items-center">
+                          <i class="fas fa-arrows-alt-h text-primary ml-2"></i>
+                          عرض البلاطة (سم):
+                        </span>
+                      </label>
+                      <div class="join w-full">
+                        <div class="join-item bg-primary w-12 flex items-center justify-center">
+                          <i class="fas fa-ruler-horizontal text-white"></i>
+                        </div>
+                        <input type="number" id="customWidth" min="1" step="1" placeholder="أدخل العرض" class="input input-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary" />
+                      </div>
+                    </div>
+
+                    <div class="form-control mb-5">
+                      <label class="label">
+                        <span class="label-text text-lg font-medium flex items-center">
+                          <i class="fas fa-arrows-alt-v text-primary ml-2"></i>
+                          طول البلاطة (سم):
+                        </span>
+                      </label>
+                      <div class="join w-full">
+                        <div class="join-item bg-primary w-12 flex items-center justify-center">
+                          <i class="fas fa-ruler-vertical text-white"></i>
+                        </div>
+                        <input type="number" id="customHeight" min="1" step="1" placeholder="أدخل الطول" class="input input-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary" />
+                      </div>
+                    </div>
+
+                    <div class="form-control mb-5">
+                      <label class="label">
+                        <span class="label-text text-lg font-medium flex items-center">
+                          <i class="fas fa-boxes text-primary ml-2"></i>
+                          عدد القطع في العبوة:
+                        </span>
+                        <span class="label-text-alt badge badge-accent">اختياري</span>
+                      </label>
+                      <div class="join w-full">
+                        <div class="join-item bg-primary w-12 flex items-center justify-center">
+                          <i class="fas fa-box text-white"></i>
+                        </div>
+                        <input type="number" id="customTilesPerBox" min="1" step="1" placeholder="أدخل عدد القطع (اختياري)" class="input input-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary" />
+                      </div>
                     </div>
                   </div>
 
@@ -677,6 +778,22 @@
                         <i class="fas fa-coins text-white"></i>
                       </div>
                       <input type="number" id="tilePrice" min="0" step="0.01" placeholder="أدخل السعر" class="input input-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary" />
+                    </div>
+                  </div>
+
+                  <div class="form-control mb-5">
+                    <label class="label">
+                      <span class="label-text text-lg font-medium flex items-center">
+                        <i class="fas fa-paint-roller text-primary ml-2"></i>
+                        سعر كيس اللاصق (درهم):
+                      </span>
+                      <span class="label-text-alt badge badge-accent">اختياري</span>
+                    </label>
+                    <div class="join w-full">
+                      <div class="join-item bg-primary w-12 flex items-center justify-center">
+                        <i class="fas fa-tag text-white"></i>
+                      </div>
+                      <input type="number" id="adhesivePrice" min="0" step="0.01" placeholder="أدخل سعر كيس اللاصق" class="input input-bordered join-item w-full text-lg focus:ring-2 focus:ring-primary" oninput="updateAdhesiveCost()" />
                     </div>
                   </div>
                 </div>
@@ -749,14 +866,17 @@
                       </td>
                       <td class="text-primary font-bold"><span id="tileWastageAmount">0</span> قطعة</td>
                     </tr>
-                    <tr>
+                    <tr id="boxesNeededRow" class="hidden">
                       <td class="font-medium bg-base-200">
                         <div class="flex items-center">
                           <i class="fas fa-boxes text-primary ml-2"></i>
                           عدد العبوات المطلوبة:
                         </div>
                       </td>
-                      <td class="text-primary font-bold"><span id="boxesNeeded">0</span> عبوة (<span id="tilesPerBox">0</span> قطعة/عبوة)</td>
+                      <td class="text-primary font-bold" id="boxesRow">
+                        <span id="boxesNeeded">-</span>
+                        <span id="boxesInfo">عبوة (<span id="tilesPerBox">0</span> قطعة/عبوة)</span>
+                      </td>
                     </tr>
                     <tr id="tileCostRow" class="hidden">
                       <td class="font-medium bg-base-200">
@@ -766,6 +886,36 @@
                         </div>
                       </td>
                       <td class="text-primary font-bold"><span id="totalTileCost">0</span> درهم</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+              <div class="divider mt-6">المواد المطلوبة للتركيب</div>
+              <div class="overflow-x-auto">
+                <table class="table table-zebra w-full">
+                  <tbody>
+                    <tr>
+                      <td class="font-medium bg-base-200">
+                        <div class="flex items-center">
+                          <i class="fas fa-paint-roller text-primary ml-2"></i>
+                          كمية اللاصق المطلوبة:
+                        </div>
+                      </td>
+                      <td class="text-primary font-bold">
+                        <span id="adhesiveBags">0</span> كيس
+                      </td>
+                    </tr>
+                    <tr id="adhesiveCostRow" class="hidden">
+                      <td class="font-medium bg-base-200">
+                        <div class="flex items-center">
+                          <i class="fas fa-coins text-primary ml-2"></i>
+                          تكلفة اللاصق:
+                        </div>
+                      </td>
+                      <td class="text-primary font-bold">
+                        <span id="adhesiveCost">0</span> درهم
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -843,9 +993,11 @@
       ceramic: {
         name: 'سيراميك',
         sizes: {
+          '25x25': { width: 25, height: 25, tilesPerBox: 16 },
           '30x30': { width: 30, height: 30, tilesPerBox: 11 },
           '40x40': { width: 40, height: 40, tilesPerBox: 6 },
-          '60x60': { width: 60, height: 60, tilesPerBox: 4 }
+          '60x60': { width: 60, height: 60, tilesPerBox: 4 },
+          '80x80': { width: 80, height: 80, tilesPerBox: 3 }
         }
       },
       porcelain: {
@@ -853,7 +1005,8 @@
         sizes: {
           '60x60': { width: 60, height: 60, tilesPerBox: 4 },
           '80x80': { width: 80, height: 80, tilesPerBox: 3 },
-          '120x60': { width: 120, height: 60, tilesPerBox: 2 }
+          '120x60': { width: 120, height: 60, tilesPerBox: 2 },
+          '120x120': { width: 120, height: 120, tilesPerBox: 1 }
         }
       },
       marble: {
@@ -861,7 +1014,8 @@
         sizes: {
           '60x60': { width: 60, height: 60, tilesPerBox: 4 },
           '80x80': { width: 80, height: 80, tilesPerBox: 2 },
-          '100x100': { width: 100, height: 100, tilesPerBox: 1 }
+          '100x100': { width: 100, height: 100, tilesPerBox: 1 },
+          '120x120': { width: 120, height: 120, tilesPerBox: 1 }
         }
       },
       granite: {
@@ -869,12 +1023,14 @@
         sizes: {
           '60x60': { width: 60, height: 60, tilesPerBox: 4 },
           '80x80': { width: 80, height: 80, tilesPerBox: 2 },
-          '100x100': { width: 100, height: 100, tilesPerBox: 1 }
+          '100x100': { width: 100, height: 100, tilesPerBox: 1 },
+          '120x120': { width: 120, height: 120, tilesPerBox: 1 }
         }
       },
       mosaic: {
         name: 'موزاييك',
         sizes: {
+          '25x25': { width: 25, height: 25, tilesPerBox: 16 },
           '30x30': { width: 30, height: 30, tilesPerBox: 11 },
           '40x40': { width: 40, height: 40, tilesPerBox: 6 },
           '50x50': { width: 50, height: 50, tilesPerBox: 4 }
@@ -911,13 +1067,41 @@
       }
     }
 
+    // معالجة تغيير حجم البلاط
+    function handleTileSizeChange() {
+      console.log('handleTileSizeChange called');
+      const tileSizeSelect = document.getElementById('tileSize');
+      const customSizeFields = document.getElementById('customSizeFields');
+      
+      // إظهار أو إخفاء حقول المقاس المخصص
+      if (tileSizeSelect.value === 'custom') {
+        console.log('Showing custom fields');
+        customSizeFields.classList.remove('hidden');
+        // تفريغ الحقول المخصصة
+        document.getElementById('customWidth').value = '';
+        document.getElementById('customHeight').value = '';
+        document.getElementById('customTilesPerBox').value = '';
+      } else {
+        console.log('Hiding custom fields');
+        customSizeFields.classList.add('hidden');
+      }
+    }
+
     // تحديث أحجام البلاط بناءً على النوع المختار
     function updateTileSizes() {
+      console.log('updateTileSizes called');
       const tileType = document.getElementById('tileType').value;
       const tileSizeSelect = document.getElementById('tileSize');
+      const customSizeFields = document.getElementById('customSizeFields');
       
       // إفراغ القائمة
       tileSizeSelect.innerHTML = '';
+      
+      // إضافة خيار المقاس المخصص أولاً
+      const customOption = document.createElement('option');
+      customOption.value = 'custom';
+      customOption.textContent = 'مقاس مخصص';
+      tileSizeSelect.appendChild(customOption);
       
       // إضافة الأحجام المتاحة للنوع المختار
       const sizes = TILE_TYPES[tileType].sizes;
@@ -928,6 +1112,15 @@
         option.textContent = `${size.width} × ${size.height} سم`;
         tileSizeSelect.appendChild(option);
       });
+
+      // اختيار أول خيار غير مخصص إذا كان متاحاً
+      if (Object.keys(sizes).length > 0) {
+        tileSizeSelect.value = Object.keys(sizes)[0];
+        customSizeFields.classList.add('hidden');
+      } else {
+        tileSizeSelect.value = 'custom';
+        customSizeFields.classList.remove('hidden');
+      }
     }
 
     // حساب كمية البلاط
@@ -944,6 +1137,7 @@
       const tilePattern = document.getElementById('tilePattern').value;
       const wastagePercentage = parseInt(document.getElementById('tileWastage').value) || 10;
       const tilePrice = parseFloat(document.getElementById('tilePrice').value) || 0;
+      const adhesivePrice = parseFloat(document.getElementById('adhesivePrice').value) || 0;
       
       // التحقق من المدخلات
       if (!roomLengthInput || !roomWidthInput) {
@@ -960,16 +1154,40 @@
       }
       
       // الحصول على معلومات البلاط
-      const tileType = TILE_TYPES[tileTypeId];
-      if (!tileType) {
-        showTileError('نوع البلاط غير صحيح');
-        return;
-      }
-      
-      const tileSize = tileType.sizes[tileSizeId];
-      if (!tileSize) {
-        showTileError('حجم البلاط غير متوفر');
-        return;
+      let tileSize;
+      if (tileSizeId === 'custom') {
+        const customWidth = parseFloat(document.getElementById('customWidth').value);
+        const customHeight = parseFloat(document.getElementById('customHeight').value);
+        const customTilesPerBox = parseInt(document.getElementById('customTilesPerBox').value) || null;
+        
+        if (isNaN(customWidth) || isNaN(customHeight) || 
+            customWidth <= 0 || customHeight <= 0) {
+          showTileError('الرجاء إدخال أبعاد صحيحة للمقاس المخصص');
+          return;
+        }
+        
+        if (customTilesPerBox !== null && customTilesPerBox <= 0) {
+          showTileError('الرجاء إدخال عدد صحيح موجب للقطع في العبوة');
+          return;
+        }
+        
+        tileSize = {
+          width: customWidth,
+          height: customHeight,
+          tilesPerBox: customTilesPerBox
+        };
+      } else {
+        const tileType = TILE_TYPES[tileTypeId];
+        if (!tileType) {
+          showTileError('نوع البلاط غير صحيح');
+          return;
+        }
+        
+        tileSize = tileType.sizes[tileSizeId];
+        if (!tileSize) {
+          showTileError('حجم البلاط غير متوفر');
+          return;
+        }
       }
       
       // حساب مساحة الغرفة والبلاطة
@@ -994,8 +1212,8 @@
       const totalWithWastage = tilesNeeded + wastageAmount;
       
       // حساب عدد العبوات
-      const tilesPerBox = tileSize.tilesPerBox;
-      const boxesNeeded = Math.ceil(totalWithWastage / tilesPerBox);
+      const tilesPerBox = tileSize.tilesPerBox || parseInt(document.getElementById('customTilesPerBox').value) || null;
+      const boxesNeeded = tilesPerBox ? Math.ceil(totalWithWastage / tilesPerBox) : null;
       
       // حساب التكلفة إذا تم إدخال السعر
       const tileCostRow = document.getElementById('tileCostRow');
@@ -1006,6 +1224,19 @@
       } else {
         tileCostRow.classList.add('hidden');
       }
+
+      // حساب كمية اللاصق وتكلفته
+      const adhesiveBags = calculateAdhesive(tileSize, parseFloat(roomAreaSqm));
+      document.getElementById('adhesiveBags').textContent = adhesiveBags;
+
+      const adhesiveCostRow = document.getElementById('adhesiveCostRow');
+      if (adhesivePrice > 0) {
+        const adhesiveCost = (adhesiveBags * adhesivePrice).toFixed(2);
+        document.getElementById('adhesiveCost').textContent = adhesiveCost;
+        adhesiveCostRow.classList.remove('hidden');
+      } else {
+        adhesiveCostRow.classList.add('hidden');
+      }
       
       // عرض النتائج
       document.getElementById('roomArea').textContent = roomAreaSqm;
@@ -1014,8 +1245,19 @@
       document.getElementById('tileWastagePercentage').textContent = wastagePercentage;
       document.getElementById('tileWastageAmount').textContent = wastageAmount;
       document.getElementById('totalWithTileWastage').textContent = totalWithWastage;
-      document.getElementById('boxesNeeded').textContent = boxesNeeded;
-      document.getElementById('tilesPerBox').textContent = tilesPerBox;
+      
+      // تحديث عرض عدد العبوات
+      const boxesNeededRow = document.getElementById('boxesNeededRow');
+      const boxesElement = document.getElementById('boxesNeeded');
+      const tilesPerBoxElement = document.getElementById('tilesPerBox');
+      
+      if (tilesPerBox && tilesPerBox > 0) {
+        boxesElement.textContent = boxesNeeded;
+        tilesPerBoxElement.textContent = tilesPerBox;
+        boxesNeededRow.classList.remove('hidden');
+      } else {
+        boxesNeededRow.classList.add('hidden');
+      }
       
       // عرض معلومات إضافية للنصائح
       document.getElementById('roomAreaTip').textContent = roomAreaSqm;
@@ -1037,12 +1279,25 @@
       document.getElementById('roomLength').value = '';
       document.getElementById('roomWidth').value = '';
       document.getElementById('tileType').value = 'ceramic';
-      updateTileSizes();
       document.getElementById('tilePattern').value = 'straight';
       document.getElementById('tileWastage').value = '10';
       document.getElementById('tilePrice').value = '';
+      document.getElementById('adhesivePrice').value = '';
+      
+      // إعادة تعيين حقول المقاس المخصص
+      document.getElementById('customWidth').value = '';
+      document.getElementById('customHeight').value = '';
+      document.getElementById('customTilesPerBox').value = '';
+      document.getElementById('customSizeFields').classList.add('hidden');
+      
+      // إخفاء صف العبوات وتكلفة اللاصق
+      document.getElementById('boxesNeededRow').classList.add('hidden');
+      document.getElementById('adhesiveCostRow').classList.add('hidden');
+      
       document.getElementById('tileError').classList.add('hidden');
       document.getElementById('tileResult').classList.add('hidden');
+      
+      updateTileSizes();
     }
     
     function printTileResults() {
@@ -1065,6 +1320,7 @@
       const brickTypeId = document.getElementById('brickType').value;
       const wastagePercentage = parseInt(document.getElementById('wastage').value) || 10;
       const brickPrice = parseFloat(document.getElementById('brickPrice').value) || 0;
+      const cementPrice = parseFloat(document.getElementById('cementPrice').value) || 0;
       
       // التحقق من المدخلات
       if (!wallLengthInput || !wallHeightInput) {
@@ -1116,6 +1372,21 @@
       } else {
         costRow.classList.add('hidden');
       }
+
+      // حساب كمية الأسمنت والرمل
+      const { cementBags, sandCubicMeters } = calculateMortarMaterials(parseFloat(wallAreaSqm), { name: brickTypeId });
+      document.getElementById('cementBags').textContent = cementBags;
+      document.getElementById('sandAmount').textContent = sandCubicMeters.toFixed(2);
+
+      // حساب تكلفة الأسمنت إذا تم إدخال السعر
+      const cementCostRow = document.getElementById('cementCostRow');
+      if (cementPrice > 0) {
+        const cementCost = (cementBags * cementPrice).toFixed(2);
+        document.getElementById('cementCost').textContent = cementCost;
+        cementCostRow.classList.remove('hidden');
+      } else {
+        cementCostRow.classList.add('hidden');
+      }
       
       // عرض النتائج
       document.getElementById('wallArea').textContent = wallAreaSqm;
@@ -1137,6 +1408,39 @@
       document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
     }
     
+    function calculateMortarMaterials(wallAreaSqm, brickType) {
+      // معدل استهلاك المونة لكل متر مربع (بالمتر المكعب)
+      const mortarRate = {
+        standard: 0.02,    // طابوق قياسي
+        hollow: 0.025,     // طابوق مجوف
+        concrete: 0.025,   // بلوك خرساني
+        thermal: 0.02      // طابوق حراري
+      };
+
+      // حساب حجم المونة المطلوبة
+      const mortarVolume = wallAreaSqm * mortarRate[brickType.name.split(' ')[0].toLowerCase()];
+      
+      // نسبة الأسمنت إلى الرمل (1:3)
+      const cementRatio = 1;
+      const sandRatio = 3;
+      const totalRatio = cementRatio + sandRatio;
+      
+      // حساب كمية الرمل (بالمتر المكعب)
+      const sandCubicMeters = (mortarVolume * sandRatio / totalRatio) * 1.2; // إضافة 20% للهدر
+      
+      // حساب كمية الأسمنت (بالكيس)
+      // كيس الأسمنت = 50 كجم
+      // كثافة الأسمنت = 1500 كجم/م³
+      const cementCubicMeters = (mortarVolume * cementRatio / totalRatio) * 1.2; // إضافة 20% للهدر
+      const cementKg = cementCubicMeters * 1500;
+      const cementBags = Math.ceil(cementKg / 50);
+      
+      return {
+        cementBags,
+        sandCubicMeters
+      };
+    }
+
     function showError(message) {
       const errorElement = document.getElementById('error');
       document.getElementById('errorMessage').textContent = message;
@@ -1148,12 +1452,84 @@
       document.getElementById('wallHeight').value = '';
       document.getElementById('brickType').value = 'standard';
       document.getElementById('wastage').value = '10';
+      document.getElementById('brickPrice').value = '';
+      document.getElementById('cementPrice').value = '';
       document.getElementById('error').classList.add('hidden');
       document.getElementById('result').classList.add('hidden');
     }
     
     function printResults() {
       window.print();
+    }
+
+    function calculateAdhesive(tileSize, area) {
+      // معدل استهلاك اللاصق حسب حجم البلاط (كجم/م²)
+      const adhesiveRates = {
+        '30x30': 4,
+        '40x40': 5,
+        '60x60': 6,
+        '80x80': 7
+      };
+      
+      // تحديد معدل الاستهلاك بناءً على حجم البلاط
+      let rate = 5; // معدل افتراضي
+      if (tileSize.width <= 30) rate = 4;
+      else if (tileSize.width <= 40) rate = 5;
+      else if (tileSize.width <= 60) rate = 6;
+      else rate = 7;
+      
+      // حساب كمية اللاصق بالكيلوجرام
+      const adhesiveKg = area * rate;
+      
+      // تحويل الكمية إلى عدد الأكياس (وزن الكيس 20 كجم)
+      return Math.ceil(adhesiveKg / 20);
+    }
+
+    function toggleAdhesivePriceField() {
+      const showPriceField = document.getElementById('showAdhesivePriceField').checked;
+      const adhesivePriceField = document.getElementById('adhesivePriceField');
+      const adhesiveCostRow = document.getElementById('adhesiveCostRow');
+      
+      if (showPriceField) {
+        adhesivePriceField.classList.remove('hidden');
+      } else {
+        adhesivePriceField.classList.add('hidden');
+        document.getElementById('adhesivePrice').value = '';
+        adhesiveCostRow.classList.add('hidden');
+      }
+      
+      calculateTiles();
+    }
+
+    function updateAdhesiveCost() {
+      const adhesivePrice = document.getElementById('adhesivePrice').value;
+      const adhesiveBags = document.getElementById('adhesiveBags');
+      const adhesiveCost = document.getElementById('adhesiveCost');
+      const roomArea = parseFloat(document.getElementById('roomArea').textContent);
+      
+      if (adhesivePrice && !isNaN(roomArea)) {
+        const bags = calculateAdhesive(getCurrentTileSize(), roomArea);
+        adhesiveBags.textContent = bags;
+        const adhesiveCostValue = parseFloat(adhesivePrice) * bags;
+        adhesiveCost.textContent = adhesiveCostValue.toFixed(2);
+      } else {
+        adhesiveBags.textContent = "0";
+        adhesiveCost.textContent = "0";
+      }
+    }
+
+    function getCurrentTileSize() {
+      const tileType = document.getElementById('tileType').value;
+      const tileSizeId = document.getElementById('tileSize').value;
+      
+      if (tileSizeId === 'custom') {
+        return {
+          width: parseFloat(document.getElementById('customWidth').value),
+          height: parseFloat(document.getElementById('customHeight').value)
+        };
+      } else {
+        return TILE_TYPES[tileType].sizes[tileSizeId];
+      }
     }
   </script>
 </body>
